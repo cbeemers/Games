@@ -1,5 +1,9 @@
-
-import Game from './game.js'
+/**
+ * \file brickbreak.js
+ * \author Christopher Beeman
+ * Adds animation and user interaction to make the game playable
+ */
+import Game from './game/game.js'
 
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
@@ -24,10 +28,10 @@ window.addEventListener('keydown', function move(event) {
             game.paddle.stop();
             break;
         case 37:
-            game.paddle.moveLeft(game);
+            game.paddle.moveLeft();
             break;
         case 39:
-            game.paddle.moveRight(game);    
+            game.paddle.moveRight();    
             break;
         case 80:
             game.pauseGame();

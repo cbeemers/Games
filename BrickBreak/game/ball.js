@@ -1,3 +1,9 @@
+/**
+ * \file ball.js
+ * \author Christopher Beeman
+ * This file keeps track of the ball object that is bouncing around the screen
+ */
+
 
 export{ Ball };
 
@@ -6,7 +12,7 @@ export{ Ball };
  */
 export default class Ball {
     
-    constructor(x, y) {
+    constructor(game, x, y) {
         
         this.position = {
             x: x,
@@ -16,6 +22,8 @@ export default class Ball {
 
         this.dx = 5;
         this.dy = 5;
+
+        this.game = game;
 
         // Finds the edges of the ball for collision detection
         this._edges = function() {
@@ -74,11 +82,10 @@ export default class Ball {
 
     /**
      * Updates the movement of the ball
-     * @param {game the ball is apart of} game 
      * @param {game paddle} paddle 
      * @param {vector containing all bricks} bricks 
      */
-    update(game, paddle, bricks) {
+    update(paddle, bricks) {
         
         // Checks for side of window collisions
         if (this.position.x + this.radius >= innerWidth || this.position.x - this.radius < 0){
@@ -90,9 +97,9 @@ export default class Ball {
         
         // Checks for ball going past paddle
         if (this.position.y + this.radius >= innerHeight) {
-            game.lives -= 1;
+            this.game.lives -= 1;
             this.reset();
-            paddle.reset();
+            this.game.paddle.reset();
         }
 
         // Collision with paddle
@@ -116,7 +123,7 @@ export default class Ball {
                     }else{this.dy = -this.dy;}
                     
                     bricks[i].delete();
-                    game.count -= 1;
+                    this.game.count -= 1;
                 }
             }
         }

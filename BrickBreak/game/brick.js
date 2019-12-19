@@ -1,5 +1,10 @@
+/**
+ * \file brick.js
+ * \author Christopher Beeman
+ * Brick object that is to be destroyed
+ */
 
-export { Brick };
+ export { Brick };
 
 /**
  * Brick object trying to break

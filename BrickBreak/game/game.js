@@ -1,3 +1,9 @@
+/**
+ * \file game.js
+ * \author Christopher Beeman
+ * Creates the actual game that holds all game objects
+ */
+
 import {Ball} from './ball.js';
 import {Paddle} from './paddle.js';
 import {Brick} from './brick.js'
@@ -10,9 +16,9 @@ export { Game };
  */
 export default class Game {
     constructor(level) {
-        this.ball = new Ball(250, 350);
-        this.paddle = new Paddle();
-        this.bricks = [];
+        this.ball = new Ball(this, 250, 350);
+        this.paddle = new Paddle(this);
+        this.bricks = []; // array of bricks for the specified level
         this.lives = 3;
         this.level = level;
         // initializing all aspects of the game
@@ -54,12 +60,13 @@ export default class Game {
         this.started = false;
         this.ball.reset();
         this.paddle.reset();
-        // reset all game attributes
+        // reset all game objects
         
         for (let i = 0; i < this.bricks.length; i++) {
             if (this.bricks[i].deleted){
                 this.bricks[i].deleted = false;
             }
+            // makes sure all bricks are reset for the current level
         }
 
         this.count = this.bricks.length;
@@ -75,6 +82,10 @@ export default class Game {
         if (this.lives == 0 || this.count == 0){
             this.gameOver = true;
         }
+
+        // Draws a different screen for each flag.
+        // Can probably be done in a much more readable way, such as creating css ids of each screen
+        // and then getting each element by id. Will work on that later
         if (this.started) {
             ctx.rect(0,0,innerWidth,innerHeight);
             ctx.fillStyle = "black";
@@ -141,7 +152,7 @@ export default class Game {
      * @param {ctx of the canvas updating} ctx 
      */
     update(ctx) {  
-        this.ball.update(this, this.paddle, this.bricks);
+        this.ball.update(this.paddle, this.bricks);
         this.paddle.update();
         for (let i = 0; i < this.bricks.length; i++) {
             this.bricks[i].draw(ctx);

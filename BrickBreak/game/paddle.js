@@ -1,3 +1,8 @@
+/**
+ * \file paddle.js
+ * \author Christoper Beeman
+ * Paddle object the user will control to bounce the ball back
+ */
 
 export { Paddle };
 
@@ -5,13 +10,17 @@ export { Paddle };
  * Paddle object controlled by the user to play
  */
 export default class Paddle {
-    constructor() {
+    constructor(game) {
         this.width = 200;
         this.height = 20;
         this.position = {
             x: innerWidth/2 - this.width/2,
             y: innerHeight - this.height -20
         };
+
+        // Example of aggregation. Paddle cannot exist without a game object.
+        // 2 way connection between game and paddle.
+        this.game = game;
 
         this.dx = 0;
         this.lastSpeed = this.dx; // Keeps track of last speed in case paused
@@ -31,11 +40,10 @@ export default class Paddle {
      * On user left arrow, update paddle direction
      * @param {game paddle is apart of} game 
      */
-    moveLeft(game){
-        if (!game.is_paused()&&game.started){
+    moveLeft(){
+        if (!this.game.is_paused()&&this.game.started_game()){
             this.dx = -7;
             this.lastSpeed = this.dx;
-            this.update();
         }
     }
     
@@ -43,11 +51,10 @@ export default class Paddle {
      * On user right arrow, update paddle
      * @param {game the paddle is apart of} game 
      */
-    moveRight(game){
-        if (!game.is_paused()&&game.started){
+    moveRight(){
+        if (!this.game.is_paused()&&this.game.started_game()){
             this.dx = 7;
             this.lastSpeed = this.dx;
-            this.update();
         }
     }
     
@@ -57,7 +64,6 @@ export default class Paddle {
     stop(){
         if (this.dx != 0) {this.dx = 0}
         else {this.dx = this.lastSpeed}
-        this.update()
     }
 
     /**
