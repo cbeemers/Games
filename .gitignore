@@ -1,0 +1,6 @@
+*.pyc
+*~
+/.vscode
+Snake/snake.html
+BrickBreak/index.html
+BrickBreak/images
